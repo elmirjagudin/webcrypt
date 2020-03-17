@@ -1,6 +1,7 @@
 from os import path
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt
+from .encryption import get_key, encrypt, decrypt
 
 DATA_ROOT = "/home/elmjag/area51/webcrypt/data"
 
@@ -52,17 +53,21 @@ def _read_file(filepath):
     if not path.isfile(full_path):
         raise InvalidRequest(f"{full_path}: no such file")
 
-    with open(path.join(full_path), "rb") as f:
-        return HttpResponse(f.read(), content_type="application/octet-stream")
+    return HttpResponse(decrypt(get_key(), full_path),
+                        content_type="application/octet-stream")
+    #
+    # with open(path.join(full_path), "rb") as f:
+    #     return HttpResponse(f.read(), content_type="application/octet-stream")
 
 
 def _write_file(filepath, file):
     full_path = path.join(DATA_ROOT, filepath)
     print(f"full_path: '{full_path}'")
 
-    with open(full_path, "wb") as f:
-        for chunk in file.chunks():
-            f.write(chunk)
+    encrypt(get_key(), file, full_path)
+    # with open(full_path, "wb") as f:
+    #     for chunk in file.chunks():
+    #         f.write(chunk)
 
     return HttpResponse("vtalibov4president")
 

@@ -14,21 +14,20 @@ def read(file):
         print(r, r.text)
         return
 
+    #print(r.content)
     with open(dest_path, "bw") as f:
         f.write(r.content)
 
-
-WRT_FILE = "/home/elmjag/area51/webcrypt/rnd2"
-def write():
-    with open(WRT_FILE, "rb") as f:
+def write(filepath):
+    with open(filepath, "rb") as f:
         r = requests.post("http://localhost:8000/crypt/",
                           data=dict(operation="write",
-                                    filepath="rnd2"),
+                                    filepath=path.basename(filepath)),
                           files=dict(file=f))
     print(r)
     print(r.text)
 
 
-#read("rnd")
-#read("rnd2")
-write()
+#read("lorem.txt")
+write("/home/elmjag/area51/webcrypt/rnd2")
+read("rnd2")
