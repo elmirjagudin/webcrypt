@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+
+import sys
 from os import path
 import requests
 
@@ -28,6 +30,12 @@ def write(filepath):
     print(r.text)
 
 
+for file in sys.argv[1:]:
+    #print(f"write {file}")
+    #write(file)
+    print(f"read {file}")
+    read(file)
+
 #read("lorem.txt")
-write("/home/elmjag/area51/webcrypt/rnd2")
-read("rnd2")
+#write("/home/elmjag/area51/webcrypt/rnd2")
+#read("rnd2")

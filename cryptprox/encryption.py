@@ -3,7 +3,7 @@ from Cryptodome import Random
 from Cryptodome.Cipher import AES
 
 KEY_SIZE = 16  # encryption key size, in bytes
-KEY_FILE = "/home/elmjag/area51/webcrypt/key"
+KEY_FILE = "enc_key"
 
 class CryptoErr(Exception):
     def error_message(self):
@@ -25,6 +25,7 @@ def get_key():
     if path.isfile(KEY_FILE):
         # load the key from specified key file
         with open(KEY_FILE, "rb") as f:
+            print(f"loading key from {KEY_FILE}")
             return f.read()
 
     # no key file found, create new key

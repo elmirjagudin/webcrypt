@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt
 from .encryption import get_key, encrypt, decrypt
 
-DATA_ROOT = "/home/elmjag/area51/webcrypt/data"
+DATA_ROOT = "data"
 
 
 class InvalidRequest(Exception):
