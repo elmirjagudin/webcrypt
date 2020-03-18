@@ -1,3 +1,4 @@
+import os
 from os import path
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt
@@ -55,19 +56,15 @@ def _read_file(filepath):
 
     return HttpResponse(decrypt(get_key(), full_path),
                         content_type="application/octet-stream")
-    #
-    # with open(path.join(full_path), "rb") as f:
-    #     return HttpResponse(f.read(), content_type="application/octet-stream")
 
 
 def _write_file(filepath, file):
     full_path = path.join(DATA_ROOT, filepath)
     print(f"full_path: '{full_path}'")
 
+    os.makedirs(path.dirname(full_path), exist_ok=True)
+
     encrypt(get_key(), file, full_path)
-    # with open(full_path, "wb") as f:
-    #     for chunk in file.chunks():
-    #         f.write(chunk)
 
     return HttpResponse("vtalibov4president")
 
