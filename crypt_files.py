@@ -17,7 +17,7 @@ def _err_exit(err_msg):
 
 def parse_args():
     parser = argparse.ArgumentParser(description="handle fragmax encrypted files")
-    parser.add_argument("command", choices=["fetch", "upload_dir"])
+    parser.add_argument("command", choices=["fetch", "upload", "upload_dir"])
     parser.add_argument("src_file")
     parser.add_argument("dest_file")
 
@@ -56,6 +56,10 @@ def _do_fetch(src_file, dest_file):
         f.write(file_data)
 
 
+def _do_upload(src_file, dest_file):
+    _upload_file(src_file, dest_file)
+
+
 def _dir_tree(top):
     for dir, _, files in os.walk(top):
         for file in files:
@@ -73,6 +77,8 @@ def main():
 
     if args.command == "fetch":
         _do_fetch(args.src_file, args.dest_file)
+    elif args.command == "upload":
+        _do_upload(args.src_file, args.dest_file)
     elif args.command == "upload_dir":
         _do_upload_dir(args.src_file, args.dest_file)
 
