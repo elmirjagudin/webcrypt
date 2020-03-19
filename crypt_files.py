@@ -26,7 +26,8 @@ def parse_args():
 
 def _get_file(src_file):
     r = requests.post(CRYP_URL,
-                      data=dict(operation="read",
+                      data=dict(auth="valid_token",
+                                operation="read",
                                 filepath=src_file))
     if r.status_code != 200:
         _err_exit(f"error fetching {src_file}: {r.text}")
@@ -39,7 +40,8 @@ def _upload_file(src_file, dest_file):
 
     with open(src_file, "rb") as f:
         r = requests.post(CRYP_URL,
-                          data=dict(operation="write",
+                          data=dict(auth="valid_token",
+                                    operation="write",
                                     filepath=dest_file),
                           files=dict(file=f))
 
