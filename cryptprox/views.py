@@ -4,7 +4,6 @@ from django.http import HttpResponse, HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt
 from .encryption import get_key, encrypt, decrypt
 
-DATA_ROOT = "data"
 
 DUMMY_VALID_TOKEN = "valid_token"
 
@@ -86,23 +85,16 @@ def _get_request_args(request):
 
 
 def _read_file(filepath):
-    full_path = path.join(DATA_ROOT, filepath)
-    print(f"full_path: '{full_path}'")
+    if not path.isfile(filepath):
+        raise InvalidRequest(f"{filepath}: no such file")
 
-    if not path.isfile(full_path):
-        raise InvalidRequest(f"{full_path}: no such file")
-
-    return HttpResponse(decrypt(get_key(), full_path),
+    return HttpResponse(decrypt(get_key(), filepath),
                         content_type="application/octet-stream")
 
 
 def _write_file(filepath, file):
-    full_path = path.join(DATA_ROOT, filepath)
-    print(f"full_path: '{full_path}'")
-
-    os.makedirs(path.dirname(full_path), exist_ok=True)
-
-    encrypt(get_key(), file, full_path)
+    os.makedirs(path.dirname(filepath), exist_ok=True)
+    encrypt(get_key(), file, filepath)
 
     return HttpResponse("vtalibov4president")
 
